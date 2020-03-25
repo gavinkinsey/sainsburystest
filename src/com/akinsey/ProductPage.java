@@ -82,21 +82,30 @@ public class ProductPage extends Parser {
      * Parse the description value out of the HTML
      */
     protected void parseDescription() {
-        StringBuilder desc = new StringBuilder();
+        description = "";
+
         Elements productDataEls = doc.getElementsByClass("productDataItemHeader");
         for (Element productData : productDataEls) {
+            // Once we have put the first line in to description stop parsing
+            if (!description.isEmpty()) {
+                break;
+            }
+
             if ("Description".equals(productData.text())) {
                 Element productTextDiv = productData.nextElementSibling();
-                if (productTextDiv != null) {
-                    for (Element el : productTextDiv.children()) {
-                        desc.append(el.text());
-                        if (desc.length() > 0)
-                            break;
+                if (productTextDiv == null) {
+                    continue;
+                }
+                for (Element el : productTextDiv.children()) {
+                    String text = el.text().trim();
+                    if (text.length() > 0) {
+                        description = text;
+                        // Once we have put the first line in to description stop parsing
+                        break;
                     }
                 }
             }
         }
-        description = desc.toString();
     }
 
     /**
