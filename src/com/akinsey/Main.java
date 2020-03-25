@@ -13,7 +13,9 @@ public class Main {
             List<String> productUrls = indexPage.findProductLinks();
             for (String url : productUrls) {
                 ProductPage productPage = new ProductPage(url);
-                System.out.println(productPage.getTitleP1());
+
+                String productJson = productPage.toJSON();
+                System.out.println(productJson);
             }
         }
         catch (IOException err) {
