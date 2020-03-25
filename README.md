@@ -2,6 +2,7 @@
 Demo project for Sainsburys job application
 
 Uses the following libraries:
+
 	JSoup: https://jsoup.org/
 	License: MIT license
 	
