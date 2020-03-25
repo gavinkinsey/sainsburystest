@@ -10,19 +10,38 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Parser for index pages containing product lists
+ */
 public class IndexPage extends Parser {
     private static final double vatRate = 0.2;
 
 
+    /**
+     * Constructor using URL string
+     *
+     * @param url URL of document to parse
+     * @throws IOException Error from JSoup
+     */
     public IndexPage(String url) throws IOException {
         super(url);
     }
 
+    /**
+     * Constructor using local file
+     *
+     * @param file Local file containing HTML to parse
+     * @throws IOException Error from JSoup
+     */
     public IndexPage(File file) throws IOException {
         super(file);
     }
 
 
+    /**
+     * Search for links to products and return a list of URLs
+     * @return List of product URLs found
+     */
     public List<String> findProductLinks() {
         List<String> links = new ArrayList<>();
         Elements productDivs = doc.getElementsByClass("productNameAndPromotions");
@@ -35,6 +54,10 @@ public class IndexPage extends Parser {
         return links;
     }
 
+    /**
+     * Generate JSON for products on the page
+     * @return JSON string
+     */
     public String generateJSON() {
         JSONObject json = new JSONObject();
         JSONArray productsJSON = new JSONArray();
