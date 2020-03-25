@@ -1,23 +1,23 @@
 package com.akinsey;
 
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-
 import java.io.IOException;
+import java.util.List;
 
 
 public class Main {
-
-    private static String url = "https://jsainsburyplc.github.io/serverside-test/site/www.sainsburys.co.uk/webapp/wcs/stores/servlet/gb/groceries/berries-cherries-currants6039.html";
-
-
     public static void main(String[] args) {
         try {
-            Document doc = Jsoup.connect(url).get();
-            System.out.println(doc.title());
+            IndexPage indexPage = new IndexPage("https://jsainsburyplc.github.io/serverside-test/site/www.sainsburys.co.uk/webapp/wcs/stores/servlet/gb/groceries/berries-cherries-currants6039.html");
+            System.out.println(indexPage.getTitle());
+
+            List<String> productUrls = indexPage.findProductLinks();
+            for (String url : productUrls) {
+                ProductPage productPage = new ProductPage(url);
+                System.out.println(productPage.getTitleP1());
+            }
         }
         catch (IOException err) {
-            System.out.println("Error");
+            System.out.println("IOException");
         }
     }
 }
