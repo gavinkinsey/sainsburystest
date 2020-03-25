@@ -1,6 +1,13 @@
 # sainsburystest
 Demo project for Sainsburys job application
 
+Uses the following libraries:
+	JSoup: https://jsoup.org/
+	License: MIT license
+	
+	json-simple: https://code.google.com/archive/p/json-simple/
+	License: Apache License 2.0
+	
 TODO: Add tests using JUnit
   This would consist of downloading all the pages from the test site, 
   converting the links to use relative paths.  Then the parsing code in the 
