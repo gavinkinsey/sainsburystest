@@ -1,0 +1,12 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="sainsburystest:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/sainsburystest_jar</output-path>
+    <root id="archive" name="sainsburystest.jar">
+      <element id="module-output" name="sainsburystest" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/../JSoup/jsoup-1.13.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/../JSoup/jsoup-1.13.1-javadoc.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/../JSoup/jsoup-1.13.1-sources.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/../JsonSimple/json-simple-1.1.1.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>

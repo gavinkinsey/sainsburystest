@@ -9,8 +9,8 @@ import java.io.IOException;
 
 
 public class ProductPage extends Parser {
-    private String kcal_per_100g;
-    private String unit_price;
+    private int kcal_per_100g;
+    private int unitPriceInPence;
     private String description;
 
 
@@ -25,16 +25,16 @@ public class ProductPage extends Parser {
     }
 
     public void extractData() {
-        getKCal();
-        getDescription();
-        getPrice();
+        parseKCal();
+        parseDescription();
+        parsePrice();
     }
 
 
-    public void getKCal() {
+    protected void parseKCal() {
         Elements nutritionTable = doc.getElementsByClass("nutritionTable");
         if (nutritionTable.size() == 0) {
-            kcal_per_100g = "";
+            kcal_per_100g = -1;
             return;
         }
 
@@ -44,15 +44,16 @@ public class ProductPage extends Parser {
             for (Element cell : cells) {
                 String cellText = cell.text();
                 if (cellText.contains("kcal")) {
-                    kcal_per_100g = cellText;
+                    String numberPart = cellText.replace("kcal", "");
+                    kcal_per_100g = Integer.parseInt(numberPart);
                     return;
                 }
             }
         }
-        kcal_per_100g = "";
+        kcal_per_100g = -1;
     }
 
-    public void getDescription() {
+    protected void parseDescription() {
         StringBuilder desc = new StringBuilder();
         Elements productDataEls = doc.getElementsByClass("productDataItemHeader");
         for (Element productData : productDataEls) {
@@ -70,25 +71,32 @@ public class ProductPage extends Parser {
         description = desc.toString();
     }
 
-    public void getPrice() {
+    protected void parsePrice() {
         Elements pricePerUnitEls = doc.getElementsByClass("pricePerUnit");
         if (pricePerUnitEls.size() == 0) {
-            unit_price = "";
+            unitPriceInPence = 0;
             return;
         }
 
-        unit_price = pricePerUnitEls.first().text();
+        String unitPriceStr = pricePerUnitEls.first().text();
+        unitPriceStr = unitPriceStr.substring(1,5);
+        double unitPriceFloat = Double.parseDouble(unitPriceStr);
+        unitPriceInPence = (int)(unitPriceFloat * 100);
     }
 
-    public String toJSON() {
+    public int getUnitPrice() {
+        return unitPriceInPence;
+    }
+
+    public JSONObject toJSON() {
         JSONObject obj = new JSONObject();
 
         obj.put("title", getTitleP1());
-        if (!kcal_per_100g.isEmpty())
+        if (kcal_per_100g >= 0)
             obj.put("kcal_per_100g", kcal_per_100g);
-        obj.put("unit_price", unit_price);
+        obj.put("unit_price", (double)unitPriceInPence / 100.0);
         obj.put("description", description);
 
-        return obj.toString();
+        return obj;
     }
 }

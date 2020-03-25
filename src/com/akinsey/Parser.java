@@ -24,7 +24,7 @@ public class Parser {
     }
 
     public String getTitleP1() {
-        String rawTitle = doc.title();
+        String rawTitle = getTitle();
         String[] splitTitle = rawTitle.split(" \\| ");
         if (splitTitle.length == 2) {
             return splitTitle[0];

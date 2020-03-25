@@ -1,25 +1,22 @@
 package com.akinsey;
 
 import java.io.IOException;
-import java.util.List;
 
 
+/**
+ * Main class for application
+ */
 public class Main {
+    /**
+     * Entry point for application
+     */
     public static void main(String[] args) {
         try {
             IndexPage indexPage = new IndexPage("https://jsainsburyplc.github.io/serverside-test/site/www.sainsburys.co.uk/webapp/wcs/stores/servlet/gb/groceries/berries-cherries-currants6039.html");
-            System.out.println(indexPage.getTitle());
-
-            List<String> productUrls = indexPage.findProductLinks();
-            for (String url : productUrls) {
-                ProductPage productPage = new ProductPage(url);
-
-                String productJson = productPage.toJSON();
-                System.out.println(productJson);
-            }
+            System.out.println(indexPage.generateJSON());
         }
         catch (IOException err) {
-            System.out.println("IOException");
+            System.out.println("Error retrieving main page");
         }
     }
 }
